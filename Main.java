@@ -1,36 +1,90 @@
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 class Tarefa {
+    // Atributos privados
     private String titulo;
-    private String descrição;
+    private String descricao;
     private String prazo;
     private int prioridade;
 
-    //construtor
-    public Tarefa(String titulo,String descrição, 
-    String prazo,int prioridade){
+    // Construtor 1: Construtor completo.
+    public Tarefa(String titulo, String descricao, String prazo, int prioridade) {
         this.titulo = titulo;
-        this.descrição = descrição;
+        this.descricao = descricao;
         this.prazo = prazo;
         this.prioridade = prioridade;
-
     }
 
-    //métodos Get e Set
-    public String getTitulo(){
+    // Construtor 2: Construtor com menos parâmetros.
+    public Tarefa(String titulo, String prazo) {
+        this.titulo = titulo;
+        this.prazo = prazo;
+        this.descricao = "";    // Descrição padrão
+        this.prioridade = 0;    // Prioridade padrão
+    }
+
+    // Métodos públicos para acessar os atributos
+    public String getTitulo() {
         return this.titulo;
     }
-    public void setTitulo(String titulo){
+
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-}
-public class Main {
-    public static void main(String[] args) {
-        //ele vai saber quem alterar de acordo 
-        //com a ordem do construtor
-        Tarefa tarefa1 = new Tarefa("Estudar POO",
-        "Revisar conceitos de classes e objetos", "04-09-2024", 1);
-        System.out.println("Tarefa: " + tarefa1.getTitulo());
-        tarefa1.setTitulo("Estudar Lógica de Programação");
-        System.out.println("Tarefa: " + tarefa1.getTitulo());
 
+    public String getDescricao() {
+        return this.descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getPrazo() {
+        return this.prazo;
+    }
+
+    public void setPrazo(String prazo) {
+        this.prazo = prazo;
+    }
+
+    
+    public void exibirDetalhes() {
+        System.out.println("Título: " + this.titulo);
+        System.out.println("Descrição: " + this.descricao);
+        System.out.println("Prazo: " + this.prazo);
+        System.out.println("Prioridade: " + this.prioridade);
+    }
+
+    // Método para calcular dias restantes
+    public long calcularDiasRestantes() {
+        LocalDate dataPrazo = LocalDate.parse(this.prazo);
+        LocalDate hoje = LocalDate.now();
+
+        return ChronoUnit.DAYS.between(hoje, dataPrazo);
+    }
+}
+
+public class Main {
+    public static void main(String[] args){
+        Tarefa tarefa1 = new Tarefa("Estudar POO", "Revisar os conceitos de classes e objetos", "2024-09-15", 1);
+
+        System.out.println("=============== Testando métodos gets ===============");
+        System.out.println("Título: " + tarefa1.getTitulo());
+        System.out.println("Descrição: " + tarefa1.getDescricao());
+        System.out.println();
+
+        System.out.println("=============== Imprimindo com método exibitDetalhes() ===============");
+        tarefa1.exibirDetalhes();
+
+        System.out.println("=============== Imprimindo tarefa com o costrutor 2 ===============");
+
+        Tarefa tarefa2 = new Tarefa("Estudar para provas", "2050-10-25");
+
+        tarefa2.exibirDetalhes();
+
+
+        System.out.println("Dias restantes para a tarefa 1: " + tarefa2.calcularDiasRestantes());
     }
 }
